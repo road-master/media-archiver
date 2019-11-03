@@ -1,0 +1,42 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[dev-packages]
+aioresponses = "*"
+flake8 = "*"
+mypy = "*"
+pylint = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-mock = "*"
+radon = "*"
+fixturefilehandler = "*"
+
+[packages]
+# To download media as parallel
+parallelmediadownloader = "*"
+# To web scrape html as parallel
+parallelhtmlscraper = "*"
+# To process images to remove small images like Emoji and thumbnail
+Pillow = "*"
+# To read yaml file as logging.dictconfig
+pyyaml = "*"
+# To read yaml file as config
+yamldataclassconfig = "*"
+
+[requires]
+python_version = "3.7"
+
+[pipenv]
+# dataclasses-json 0.2.7 depends on marshmallow 3.0.0rc6
+allow_prereleases = true
+
+[scripts]
+start = "python archive.py"
+test = "cd tests && pytest"
+coverage = "cd tests && pytest --verbose --cov=mediaarchiver --cov-report=term-missing"
+flake8 = "flake8 --max-line-length=120 --statistics --show-source --radon-show-closures ."
+cc = "radon cc --show-complexity --min B ."
+mi = "radon mi --show ."

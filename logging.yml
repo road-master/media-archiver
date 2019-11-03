@@ -1,0 +1,28 @@
+version: 1
+disable_existing_loggers: false
+formatters:
+  simple:
+    class: logging.Formatter
+    style: "{"
+    datefmt: ':%Y-%m-%d %H:%M:%S'
+    format: '{asctime} : {levelname:8s} : {name:48s} : {message}'
+handlers:
+  console_debug:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: simple
+    stream: ext://sys.stdout
+  console_error:
+    class: logging.StreamHandler
+    level: WARNING
+    formatter: simple
+    stream: ext://sys.stderr
+  file:
+    class: logging.FileHandler
+    level: WARNING
+    formatter: simple
+    filename: error.log
+    encoding: utf-8
+root:
+  level: DEBUG
+  handlers: [console_debug, console_error, file]
