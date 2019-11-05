@@ -21,17 +21,15 @@ parallelmediadownloader = "*"
 parallelhtmlscraper = "*"
 # To process images to remove small images like Emoji and thumbnail
 Pillow = "*"
+# To calculate date difference simply
+python-dateutil = "*"
 # To read yaml file as logging.dictconfig
 pyyaml = "*"
 # To read yaml file as config
 yamldataclassconfig = "*"
 
 [requires]
-python_version = "3.7"
-
-[pipenv]
-# dataclasses-json 0.2.7 depends on marshmallow 3.0.0rc6
-allow_prereleases = true
+python_version = "3.8"
 
 [scripts]
 start = "python archive.py"

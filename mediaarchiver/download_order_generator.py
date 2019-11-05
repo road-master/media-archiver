@@ -34,6 +34,12 @@ class DownloadOrderGenerator:
     def build_url(self, url_media: str) -> str:
         if url_media.startswith('https://'):
             return url_media
+        if url_media.startswith('HTTPS://'):
+            return url_media.replace('HTTPS://', 'https://', 1)
+        if url_media.startswith('http://'):
+            return url_media.replace('http://', 'https://', 1)
+        if url_media.startswith('HTTP://'):
+            return url_media.replace('HTTP://', 'https://', 1)
         if url_media.startswith('//'):
             return f'https:{url_media}'
         return self.base_url + url_media
