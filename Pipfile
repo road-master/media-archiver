@@ -3,17 +3,6 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
-[dev-packages]
-aioresponses = "*"
-flake8 = "*"
-mypy = "*"
-pylint = "*"
-pytest = "*"
-pytest-cov = "*"
-pytest-mock = "*"
-radon = "*"
-fixturefilehandler = "*"
-
 [packages]
 # To download media as parallel
 parallelmediadownloader = "*"
@@ -27,6 +16,17 @@ python-dateutil = "*"
 pyyaml = "*"
 # To read yaml file as config
 yamldataclassconfig = "*"
+
+[dev-packages]
+aioresponses = "*"
+flake8 = "*"
+mypy = "*"
+pylint = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-mock = "*"
+radon = "*"
+fixturefilehandler = "*"
 
 [requires]
 python_version = "3.9"
