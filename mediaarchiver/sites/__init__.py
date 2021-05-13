@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 """This module implements archiving steps for media files at some of web site."""
 from __future__ import annotations
-from abc import abstractmethod, ABC
+
 import copy
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import Enum
 from logging import getLogger
-from typing import List, Generic, Iterable, Type, Callable
+from typing import Callable, Generic, Iterable, List, Type
+
 # noinspection PyProtectedMember
 from urllib import request
 from urllib.error import HTTPError
@@ -57,11 +59,11 @@ class NonTimeLineBlogSiteContext:
 
 class NonTimeLineBlogSiteArticlePageUrlListUpTask(ArticlePageUrlListUpTask):
     def __init__(
-            self,
-            web_site_context: WebSiteContext,
-            monthly_archive_home_page_url_extractor: MonthlyArchiveHomePageUrlExtractor,
-            monthly_archive_page_url_list_up_task: AbstractMonthlyArchivePageUrlListUpTask,
-            article_page_analyzer: Type[ArticlePageUrlAnalyzer]
+        self,
+        web_site_context: WebSiteContext,
+        monthly_archive_home_page_url_extractor: MonthlyArchiveHomePageUrlExtractor,
+        monthly_archive_page_url_list_up_task: AbstractMonthlyArchivePageUrlListUpTask,
+        article_page_analyzer: Type[ArticlePageUrlAnalyzer],
     ):
         self.web_site_context = web_site_context
         self.monthly_archive_home_page_url_extractor = monthly_archive_home_page_url_extractor
@@ -70,32 +72,33 @@ class NonTimeLineBlogSiteArticlePageUrlListUpTask(ArticlePageUrlListUpTask):
         self.logger = getLogger(__name__)
 
     def execute(self, account: TypeVarAccount, soup_diary_home_page: BeautifulSoup) -> List[str]:
-        self.logger.info('start extract_url_monthly_archive_home_page')
+        self.logger.info("start extract_url_monthly_archive_home_page")
         list_url_monthly_archive_home_page = self.monthly_archive_home_page_url_extractor.execute(
             soup_diary_home_page, account
         )
-        self.logger.info('finish extract_url_monthly_archive_home_page')
+        self.logger.info("finish extract_url_monthly_archive_home_page")
         self.logger.debug(list_url_monthly_archive_home_page)
-        self.logger.info('start MONTHLY_ARCHIVE_PAGE_URL_LIST_UP_TASK')
+        self.logger.info("start MONTHLY_ARCHIVE_PAGE_URL_LIST_UP_TASK")
         list_url_monthly_archive_page = self.monthly_archive_page_url_list_up_task.execute(
             list_url_monthly_archive_home_page
         )
-        self.logger.info('finish MONTHLY_ARCHIVE_PAGE_URL_LIST_UP_TASK')
+        self.logger.info("finish MONTHLY_ARCHIVE_PAGE_URL_LIST_UP_TASK")
         self.logger.debug(list_url_monthly_archive_page)
-        self.logger.info('start list_up_url_article_page_by_monthly_archive_page')
+        self.logger.info("start list_up_url_article_page_by_monthly_archive_page")
         list_url_article: List[str] = ParallelHtmlScraperWrapper.execute(
             self.web_site_context.base_url,
             list_url_monthly_archive_page,
             self.article_page_analyzer(account),
             limit=self.web_site_context.limit,
-            post_processor=DuplicateRemover()
+            post_processor=DuplicateRemover(),
         )
-        self.logger.info('finish list_up_url_article_page_by_monthly_archive_page')
+        self.logger.info("finish list_up_url_article_page_by_monthly_archive_page")
         return list_url_article
 
 
 class BlogSite(Generic[TypeVarAccount], ABC):
     """This class implements archiving steps for media files at some of web site."""
+
     def __init__(self, web_site_context: WebSiteContext):
         self.web_site_context = web_site_context
 
@@ -111,32 +114,32 @@ class NonTimeLineBlogSite(BlogSite):
         self.logger = getLogger(__name__)
 
     def list_up_article(self, account) -> List[Article]:
-        self.logger.info('start request_diary_home_page')
+        self.logger.info("start request_diary_home_page")
         soup_diary_home_page = self.__request_diary_home_page(account)
-        self.logger.info('finish request_diary_home_page')
-        self.logger.info('start list_up_url_article_page')
+        self.logger.info("finish request_diary_home_page")
+        self.logger.info("start list_up_url_article_page")
         list_url_article_page = self.non_time_line_blog_site_context.article_page_url_list_up_task(  # type: ignore
             # Reason: @see https://github.com/python/mypy/issues/6910
-        ).execute(
-            account, soup_diary_home_page
-        )
-        self.logger.info('finish list_up_url_article_page')
+        ).execute(account, soup_diary_home_page)
+        self.logger.info("finish list_up_url_article_page")
         self.logger.debug(list_url_article_page)
-        self.logger.info('start analyze_article')
+        self.logger.info("start analyze_article")
         list_article: List[Article] = ParallelHtmlScraperWrapper.execute(
             self.web_site_context.base_url,
             list_url_article_page,
             ArticleAnalyzer(self.non_time_line_blog_site_context.clue_article),
-            limit=self.web_site_context.limit
+            limit=self.web_site_context.limit,
         )
-        self.logger.info('finish analyze_article')
+        self.logger.info("finish analyze_article")
         return list_article
 
     def __request_diary_home_page(self, account: TypeVarAccount) -> BeautifulSoup:
-        diary_home_url = (f'{self.web_site_context.base_url}'
-                          f'{self.non_time_line_blog_site_context.blog_home_url_builder.build_blog_home_url(account)}')
+        diary_home_url = (
+            f"{self.web_site_context.base_url}"
+            f"{self.non_time_line_blog_site_context.blog_home_url_builder.build_blog_home_url(account)}"
+        )
         # Reason: @see https://github.com/PyCQA/pylint/issues/2395 pylint: disable=logging-fstring-interpolation
-        self.logger.info(f'request = {diary_home_url}')
+        self.logger.info(f"request = {diary_home_url}")
         try:
             return BeautifulSoup(request.urlopen(diary_home_url), "html.parser")
         except HTTPError as error:
@@ -144,8 +147,10 @@ class NonTimeLineBlogSite(BlogSite):
                 raise HTTPError(
                     error.url,
                     error.code,
-                    (f'Account may be removed. account.name = {account.name}, '
-                     'account.id = {account.id}. {error.msg}'),  # type: ignore
+                    (
+                        f"Account may be removed. account.name = {account.name}, "
+                        "account.id = {account.id}. {error.msg}"
+                    ),  # type: ignore
                     error.hdrs,  # type: ignore
                     error.fp  # type: ignore
                     # Reason: Wrong type information from urllib
@@ -177,13 +182,9 @@ class MonthlyArchivePageUrlListUpTask(AbstractMonthlyArchivePageUrlListUpTask):
             list_url_monthly_archive_home_page,
             self.monthly_archive_url_analyzer,
             limit=self.web_site_context.limit,
-            post_processor=DuplicateRemover(copy.copy(list_url_monthly_archive_home_page))
+            post_processor=DuplicateRemover(copy.copy(list_url_monthly_archive_home_page)),
         )
 
 
 class Site(Enum):
-    TWITTER = WebSiteContext(
-        lambda: CONFIG.twitter,
-        'https://api.twitter.com/2/timeline/media',
-        1,
-    )
+    TWITTER = WebSiteContext(lambda: CONFIG.twitter, "https://api.twitter.com/2/timeline/media", 1,)

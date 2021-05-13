@@ -3,17 +3,6 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
-[dev-packages]
-aioresponses = "*"
-flake8 = "*"
-mypy = "*"
-pylint = "*"
-pytest = "*"
-pytest-cov = "*"
-pytest-mock = "*"
-radon = "*"
-fixturefilehandler = "*"
-
 [packages]
 # To download media as parallel
 parallelmediadownloader = "*"
@@ -28,13 +17,31 @@ pyyaml = "*"
 # To read yaml file as config
 yamldataclassconfig = "*"
 
+[dev-packages]
+aioresponses = "*"
+coverage = "*"
+fixturefilehandler = "*"
+flake8 = "*"
+# To use flake8 --radon-show-closures
+flake8-polyfill = "*"
+invoke = "*"
+isort = "*"
+mypy = "*"
+# To use black
+pipenv-setup = "*"
+pylint = "*"
+pytest = "*"
+pytest-mock = "*"
+radon = "*"
+xenon = "*"
+
 [requires]
-python_version = "3.8"
+python_version = "3.9"
 
 [scripts]
 start = "python archive.py"
-test = "cd tests && pytest"
-coverage = "cd tests && pytest --verbose --cov=mediaarchiver --cov-report=term-missing"
+test = "pytest tests"
+coverage = "pytest --verbose --cov=mediaarchiver --cov-report=term-missing tests"
 flake8 = "flake8 --max-line-length=120 --statistics --show-source --radon-show-closures ."
 cc = "radon cc --show-complexity --min B ."
 mi = "radon mi --show ."

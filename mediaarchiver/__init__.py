@@ -11,7 +11,8 @@ class Directory(Enum):
     """
     This class implements constant of path_directory_download to directory of CSV.
     """
-    DOWNLOAD = Path(__file__).parent.parent / 'download'
+
+    DOWNLOAD = Path(__file__).parent.parent / "download"
 
     @property
     def value(self) -> Path:

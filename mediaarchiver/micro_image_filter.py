@@ -1,6 +1,6 @@
-from PIL import Image
 from parallelmediadownloader.media_file import MediaFile
 from parallelmediadownloader.media_filter import NotImageFilter
+from PIL import Image
 
 
 class MicroImageFilter(NotImageFilter):
@@ -8,7 +8,7 @@ class MicroImageFilter(NotImageFilter):
     """Referenced Emoji on Ameba blog as Default threshold."""
 
     def __init__(
-            self, *, threshold_width: int = PIXEL_EMOJI_AMEBA_BLOG, threshold_height: int = PIXEL_EMOJI_AMEBA_BLOG
+        self, *, threshold_width: int = PIXEL_EMOJI_AMEBA_BLOG, threshold_height: int = PIXEL_EMOJI_AMEBA_BLOG
     ):
         self.threshold_width = threshold_width
         self.threshold_height = threshold_height
