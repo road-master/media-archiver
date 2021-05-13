@@ -1,5 +1,0 @@
-parallelmediadownloader
-parallelhtmlscraper
-Pillow
-pyyaml
-yamldataclassconfig
