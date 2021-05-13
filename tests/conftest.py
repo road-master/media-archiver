@@ -1,5 +1,5 @@
-from aioresponses import aioresponses
 import pytest
+from aioresponses import aioresponses
 
 
 @pytest.fixture

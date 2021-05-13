@@ -3,19 +3,19 @@ from typing import Generic, Iterable, Optional
 from parallelhtmlscraper import ParallelHtmlScraper
 from parallelhtmlscraper.html_analyzer import HtmlAnalyzer
 
-from mediaarchiver.post_processor import T, U, PostProcessor, Flattener
+from mediaarchiver.post_processor import Flattener, PostProcessor, T, U
 
 
 class ParallelHtmlScraperWrapper(Generic[T, U]):
     @classmethod
     def execute(
-            cls,
-            base_url: str,
-            list_url_monthly_archive_page: Iterable[str],
-            analyzer: HtmlAnalyzer[T],
-            *,
-            limit: int,
-            post_processor: Optional[PostProcessor[T, U]] = None
+        cls,
+        base_url: str,
+        list_url_monthly_archive_page: Iterable[str],
+        analyzer: HtmlAnalyzer[T],
+        *,
+        limit: int,
+        post_processor: Optional[PostProcessor[T, U]] = None
     ) -> U:
         processor = cls.set_default(post_processor)
         list_analyze_result = ParallelHtmlScraper.execute(

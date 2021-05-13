@@ -1,5 +1,7 @@
 from abc import ABC
+
 from parallelhtmlscraper.html_analyzer import HtmlAnalyzer
+
 from mediaarchiver.models import TypeVarAccount
 
 

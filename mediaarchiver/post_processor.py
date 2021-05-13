@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
-from typing import List, Generic, TypeVar, Optional
+from typing import Generic, List, Optional, TypeVar
 
 # pylint: disable=invalid-name
-T = TypeVar('T')
-U = TypeVar('U')
-V = TypeVar('V')
+T = TypeVar("T")
+U = TypeVar("U")
+V = TypeVar("V")
 
 
 class PostProcessor(Generic[T, U], ABC):
