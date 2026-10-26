@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 """This module implements archiving steps for media files at some of web site."""
+
 from logging import getLogger
 from pathlib import Path
 from traceback import format_tb
@@ -37,7 +38,7 @@ class MediaArchivingStep(Generic[TypeVarAccount]):
         for download_result in list_download_result:
             self.logger.info(f"Status = {download_result.status}, URL = {download_result.url}")
         if list_exception:
-            for (account, exception) in list_exception:
+            for account, exception in list_exception:
                 list_trace_back = "".join(format_tb(exception.__traceback__))
                 # Reason: @see https://github.com/PyCQA/pylint/issues/2395 pylint: disable=logging-fstring-interpolation
                 self.logger.error(f"Account = {account.id}:{account.name}")

@@ -1,3 +1,64 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mediaarchiver"
+version = "0.0.0"
+description = "This project helps you to archive media file."
+readme = "README.md"
+authors = [
+    { name = "Road Master", email = "roadmasternavi@gmail.com" },
+]
+keywords = ["media", "archive"]
+requires-python = ">=3.14"
+dependencies = [
+    # To parse HTML (imported directly, also required by parallelhtmlscraper)
+    "beautifulsoup4",
+    # To deserialize config (imported directly, also required by yamldataclassconfig)
+    "dataclasses-json",
+    # To web scrape html as parallel
+    "parallelhtmlscraper",
+    # To download media as parallel
+    "parallelmediadownloader",
+    # To process images to remove small images like Emoji and thumbnail
+    "pillow",
+    # To calculate date difference simply
+    "python-dateutil",
+    # To read yaml file as logging.dictconfig
+    "pyyaml",
+    # To read yaml file as config
+    "yamldataclassconfig",
+]
+
+[project.urls]
+Homepage = "https://github.com/road-master/media-archiver"
+
+[dependency-groups]
+dev = [
+    "aioresponses",
+    "black",
+    "coverage",
+    "fixturefilehandler",
+    "flake8",
+    # To use flake8 --radon-show-closures
+    "flake8-polyfill",
+    "invoke",
+    "isort",
+    "mypy",
+    "pylint",
+    "pytest",
+    "pytest-mock",
+    "radon",
+    "xenon",
+]
+
+[tool.setuptools.packages.find]
+exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+mediaarchiver = ["py.typed"]
+
 [tool.isort]
 # @see https://github.com/timothycrosley/isort/issues/694#issuecomment-581246882
 multi_line_output = 3
@@ -16,12 +77,6 @@ line-length = 120
 
 [tool.pylint.format]
 max-line-length = "120"
-
-[tool.pylint.messages_control]
-# bad-continuation: @see https://github.com/PyCQA/pylint/pull/3571
-disable = ''',
-    bad-continuation,
-    '''
 
 [tool.pylint.options]
 # Since this rule against single responsibility principle.

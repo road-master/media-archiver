@@ -15,7 +15,7 @@ class ParallelHtmlScraperWrapper(Generic[T, U]):
         analyzer: HtmlAnalyzer[T],
         *,
         limit: int,
-        post_processor: Optional[PostProcessor[T, U]] = None
+        post_processor: Optional[PostProcessor[T, U]] = None,
     ) -> U:
         processor = cls.set_default(post_processor)
         list_analyze_result = ParallelHtmlScraper.execute(
