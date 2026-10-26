@@ -2,6 +2,7 @@
 """
 TODO Twitter のバックエンドの仕様が変わり、 request 先の URL と戻りの JSON が変わったので作りなおし
 """
+
 import json
 from datetime import datetime
 from logging import getLogger

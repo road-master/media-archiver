@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Generator, List, Optional
 
 from parallelmediadownloader.media_download_coroutine import DownloadOrder
-from parallelmediadownloader.media_save_coroutine import SaveOrder
+from parallelmediadownloader.media_file import SaveOrder
 
 from mediaarchiver.article import Article
 from mediaarchiver.file_name_builder import DefaultFileNameBuilder, FileNameBuilder

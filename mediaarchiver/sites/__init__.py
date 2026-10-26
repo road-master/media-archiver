@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 """This module implements archiving steps for media files at some of web site."""
+
 from __future__ import annotations
 
 import copy
@@ -152,7 +153,7 @@ class NonTimeLineBlogSite(BlogSite):
                         "account.id = {account.id}. {error.msg}"
                     ),  # type: ignore
                     error.hdrs,  # type: ignore
-                    error.fp  # type: ignore
+                    error.fp,  # type: ignore
                     # Reason: Wrong type information from urllib
                 )
             raise error
@@ -187,4 +188,8 @@ class MonthlyArchivePageUrlListUpTask(AbstractMonthlyArchivePageUrlListUpTask):
 
 
 class Site(Enum):
-    TWITTER = WebSiteContext(lambda: CONFIG.twitter, "https://api.twitter.com/2/timeline/media", 1,)
+    TWITTER = WebSiteContext(
+        lambda: CONFIG.twitter,
+        "https://api.twitter.com/2/timeline/media",
+        1,
+    )
